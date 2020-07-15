@@ -28662,8 +28662,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
       return field.conditional !== undefined;
     }); // initialize state using imported data
 
-    _this.state = _data_data_js__WEBPACK_IMPORTED_MODULE_1__["data"] // .filter(field => field.type === "text")
-    .reduce(function (acc, field) {
+    _this.state = _data_data_js__WEBPACK_IMPORTED_MODULE_1__["data"].reduce(function (acc, field) {
       return _objectSpread(_objectSpread({}, acc), {}, _defineProperty({}, field.name, {
         show: true,
         value: field.type === "checkbox" ? false : "",
@@ -28672,6 +28671,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
     }, {});
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.renderCondition = _this.renderCondition.bind(_assertThisInitialized(_this));
     return _this;
   } // initial form 
 
@@ -28679,17 +28679,32 @@ var Form = /*#__PURE__*/function (_React$Component) {
   _createClass(Form, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      this.renderCondition();
+    } // update the form as input changes
+
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      this.renderCondition();
+    } // render conditional fields 
+
+  }, {
+    key: "renderCondition",
+    value: function renderCondition() {
       var _this2 = this;
 
       this.conditionals.forEach(function (field) {
-        // name, type, conditional of the field
-        // ex) parental_consent
+        /* 
+          name, type, conditional of the field
+          ex) parental_consent
+         */
         var name = field.name,
             conditional = field.conditional;
-        /* conditional value and type
+        /*
+          conditional value and type
           ex) conditional.name => date_of_birth 
           ex) conditional.type => date
-        */
+         */
 
         var value = _this2.state[conditional.name].value;
         var type = _this2.state[conditional.name].type; // conditional switch depending on the type
@@ -28713,54 +28728,15 @@ var Form = /*#__PURE__*/function (_React$Component) {
           _this2.setState(_defineProperty({}, name, state));
         }
       });
-    } // update the form as input changes
-
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate() {
-      var _this3 = this;
-
-      this.conditionals.forEach(function (field) {
-        // name, type, conditional of the field
-        // ex) parental_consent
-        var name = field.name,
-            conditional = field.conditional;
-        /* conditional value and type
-          ex) conditional.name => date_of_birth 
-          ex) conditional.type => date
-        */
-
-        var value = _this3.state[conditional.name].value;
-        var type = _this3.state[conditional.name].type; // conditional switch depending on the type
-
-        switch (type) {
-          case "date":
-            value = new Date(value);
-            break;
-
-          default:
-        } // current state
-
-
-        var state = _this3.state[name]; // conditional state using the current value
-
-        var condition = conditional.show_if(value); // compare and update if different
-
-        if (state.show !== condition) {
-          state.show = condition;
-
-          _this3.setState(_defineProperty({}, name, state));
-        }
-      });
     } // update field state
 
   }, {
     key: "update",
     value: function update(field, type) {
-      var _this4 = this;
+      var _this3 = this;
 
       return function (e) {
-        var state = _this4.state[field];
+        var state = _this3.state[field];
 
         switch (type) {
           case "checkbox":
@@ -28771,7 +28747,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
             state.value = event.target.value;
         }
 
-        _this4.setState(_defineProperty({}, field, state));
+        _this3.setState(_defineProperty({}, field, state));
       };
     } // Create the output JS object upon form submission
 
@@ -28779,9 +28755,10 @@ var Form = /*#__PURE__*/function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
-      /* iterate and construct output object
-         if set to show and is not blank
-      */
+      /*
+        iterate and construct output object
+        if set to show and is not blank
+       */
 
       this.output = {};
 
@@ -28795,7 +28772,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
       /* 
         this.output is the output JS object
         console log so it can be viewed in the console
-      */
+       */
 
 
       console.log(this.output); // render output
@@ -28807,14 +28784,14 @@ var Form = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this4 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, this.data.map(function (field) {
-        if (_this5.state[field.name].show === true) {
+        if (_this4.state[field.name].show === true) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             key: field.name,
             className: field.name
@@ -28823,7 +28800,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
           }, field.human_label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             type: field.type,
             name: field.name,
-            onChange: _this5.update("".concat(field.name), "".concat(field.type))
+            onChange: _this4.update("".concat(field.name), "".concat(field.type))
           }));
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -28834,7 +28811,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: key,
           className: "field"
-        }, "\"".concat(field, "\": "), _this5.state[field].type === "checkbox" ? "" : '"', "".concat(_this5.output[field]), _this5.state[field].type === "checkbox" ? "" : '"', key === Object.keys(_this5.output).length - 1 ? "" : ",");
+        }, "\"".concat(field, "\": "), _this4.state[field].type === "checkbox" ? "" : '"', "".concat(_this4.output[field]), _this4.state[field].type === "checkbox" ? "" : '"', key === Object.keys(_this4.output).length - 1 ? "" : ",");
       }) : "", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "}"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null));
     }
   }]);
