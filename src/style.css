@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgba(253, 248, 237, 1);
+}
+
+.container {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.center {
+  max-width: 600px;
+  min-width: 500px;
+  width: 70vw;
+  background-color: rgba(255, 255, 255, .8);
+  padding: 30px;
+  box-shadow: 0 20px 20px 0 rgba(242, 169, 136, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.field {
+  margin-left: 30px;
+}
+
+label {
+  width: 30%;
+  display: inline-block;
+  padding: 15px;
+}
+
+input[type=text], input[type=email], input[type=date] {
+  width: 70%;
+  padding: 10px;
+  float: right;
+}
+
+button {
+  float: right;
+  padding: 15px;
+}
+
+label, input, button {
+  font-size: 16px;
+  font-family: 'Raleway', sans-serif;
+}
+
+.output {
+  margin-top: 20px;
+  display: inline-block;
+  width: 100%;
+  background-color: black;
+  color: coral;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 17px;
+  padding: 20px;
+}
